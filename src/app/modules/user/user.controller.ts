@@ -1,5 +1,5 @@
-import httpStatus from "http-status";
 import { RequestHandler } from "express";
+import httpStatus from "http-status";
 import { sendResponse } from "../../../utils";
 import { IUser } from "./user.interface";
 import { UserServices } from "./user.services";

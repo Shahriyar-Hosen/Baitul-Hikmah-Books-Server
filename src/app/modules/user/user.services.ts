@@ -2,11 +2,6 @@ import jwt from "jsonwebtoken";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
-// interface Idecode {
-//   useremail: string;
-//   role: string;
-// }
-
 const createUser = async (payload: IUser) => {
   const createdUser = await User.create(payload);
   return createdUser;
