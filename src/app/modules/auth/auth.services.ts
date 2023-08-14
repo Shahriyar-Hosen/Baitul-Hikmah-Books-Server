@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import config from "../../../config";
 import { ApiError } from "../../../errors";
@@ -8,7 +9,6 @@ import {
   ILoginUserResponse,
   IRefreshTokenResponse,
 } from "./auth.interface";
-import httpStatus from "http-status";
 
 const userSignUp = async (user: IUser) => {
   const createdUser = await User.create(user);

@@ -1,5 +1,5 @@
-import httpStatus from "http-status";
 import { NextFunction, Request, RequestHandler, Response } from "express";
+import httpStatus from "http-status";
 import config from "../../../config";
 import { catchAsync, sendResponse } from "../../../utils";
 import { ILoginUserResponse, IRefreshTokenResponse } from "./auth.interface";
