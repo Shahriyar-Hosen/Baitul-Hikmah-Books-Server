@@ -1,10 +1,10 @@
 import { ErrorRequestHandler } from "express";
+import { ZodError } from "zod";
 import config from "../../config";
 import { ApiError, handleValidationError } from "../../errors";
-import { IGenericErrorMessage } from "../../interfaces";
 import handleCastError from "../../errors/handleCastError";
-import { ZodError } from "zod";
 import handleZodError from "../../errors/handleZodError";
+import { IGenericErrorMessage } from "../../interfaces";
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = 500;
