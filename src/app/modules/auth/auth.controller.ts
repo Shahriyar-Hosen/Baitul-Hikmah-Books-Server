@@ -8,7 +8,7 @@ import { AuthServices } from "./auth.services";
 const userSignup: RequestHandler = async (req, res, next) => {
   try {
     const user = req.body;
-    console.log(user);
+
     const result = await AuthServices.userSignUp(user);
     sendResponse(res, {
       statusCode: httpStatus.OK,

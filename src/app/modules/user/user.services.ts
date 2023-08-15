@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from "jsonwebtoken";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";

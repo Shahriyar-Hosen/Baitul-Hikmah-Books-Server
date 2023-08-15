@@ -29,9 +29,9 @@ export type IGenericResponse<T> = {
 };
 
 export type IPaginationOptionResult = {
-  page: number;
-  limit: number;
-  skip: number;
-  sortBy: string;
-  sortOrder: SortOrder;
+  page?: number;
+  limit?: number;
+  skip?: number;
+  sortBy?: string;
+  sortOrder?: SortOrder;
 };

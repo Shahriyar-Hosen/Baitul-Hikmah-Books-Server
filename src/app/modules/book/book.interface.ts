@@ -7,5 +7,9 @@ export type IBook = {
   genre: string;
   publicationDate: string;
 };
-
+export type IBooksFilters = {
+  searchTerm?: string;
+  genre?: string;
+  publicationDate?: string;
+};
 export type BookModel = Model<IBook>;

@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync, sendResponse } from "../../../utils";
+import { catchAsync, pick, sendResponse } from "../../../utils";
+import { paginationFields } from "../../constants/pagination";
+import { booksFilterableFields } from "./book.constants";
 import { BookServices } from "./book.services";
 
 const addBook = catchAsync(
@@ -17,9 +19,13 @@ const addBook = catchAsync(
     next();
   }
 );
+
 const getBooks = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await BookServices.getBooks();
+    const filters = pick(req.query, booksFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
+
+    const result = await BookServices.getBooks(filters, paginationOptions);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

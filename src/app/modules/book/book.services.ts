@@ -1,4 +1,5 @@
-import { IBook } from "./book.interface";
+import { IPaginationOptionResult } from "../../../interfaces";
+import { IBook, IBooksFilters } from "./book.interface";
 import { Book } from "./book.model";
 
 const addBook = async (payload: IBook) => {
@@ -6,7 +7,10 @@ const addBook = async (payload: IBook) => {
   return addedBook;
 };
 
-const getBooks = async () => {
+const getBooks = async (
+  filters: IBooksFilters,
+  paginationOptions: IPaginationOptionResult
+) => {
   const addedBook = await Book.find();
   return addedBook;
 };
