@@ -3,7 +3,7 @@ import { BookModel, IBook } from "./book.interface";
 
 const bookSchema = new Schema<IBook, BookModel>(
   {
-    image: {
+    imgUrl: {
       type: String,
       required: true,
     },

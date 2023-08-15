@@ -22,7 +22,7 @@ const addBookZodSchema = z.object({
 
 const updateBookZodSchema = z.object({
   body: z.object({
-    image: z
+    imgUrl: z
       .string({
         required_error: "Image Should be a string",
       })

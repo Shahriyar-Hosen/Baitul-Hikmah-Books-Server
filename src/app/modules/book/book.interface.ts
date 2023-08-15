@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
 
 export type IBook = {
-  image: string;
+  imgUrl: string;
   title: string;
   author: string;
   genre: string;
