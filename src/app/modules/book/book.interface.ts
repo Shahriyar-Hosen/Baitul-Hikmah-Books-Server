@@ -1,11 +1,19 @@
 import { Model } from "mongoose";
 
+export type IReviews = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 export type IBook = {
-  imgUrl: string;
   title: string;
   author: string;
   genre: string;
   publicationDate: string;
+  publisherEmail: string;
+  imgUrl: string;
+  reviews?: IReviews[];
 };
 export type IBooksFilters = {
   searchTerm?: string;
