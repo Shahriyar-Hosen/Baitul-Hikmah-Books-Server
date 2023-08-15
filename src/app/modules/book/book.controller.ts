@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import { catchAsync, pick, sendResponse } from "../../../utils";
 import { paginationFields } from "../../constants/pagination";
 import { booksFilterableFields } from "./book.constants";
+import { IBook } from "./book.interface";
 import { BookServices } from "./book.services";
 
 const addBook = catchAsync(
@@ -27,11 +28,12 @@ const getBooks = catchAsync(
 
     const result = await BookServices.getBooks(filters, paginationOptions);
 
-    sendResponse(res, {
+    sendResponse<IBook[]>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Book  List",
-      data: result,
+      message: "Books  List retrieved successfully !",
+      meta: result.meta,
+      data: result.data,
     });
     next();
   }
