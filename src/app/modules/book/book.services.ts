@@ -64,18 +64,15 @@ const getBooks = async (
   };
 };
 const getOneBook = async (id: string) => {
-  const addedBook = await Book.findById(id);
-  return addedBook;
+  return await Book.findById(id);
 };
 const editBook = async (id: string, data: Partial<IBook>) => {
-  const addedBook = await Book.findOneAndUpdate({ _id: id }, data, {
+  return await Book.findOneAndUpdate({ _id: id }, data, {
     new: true,
   });
-  return addedBook;
 };
 const deleteBook = async (id: string) => {
-  const addedBook = await Book.findOneAndDelete({ _id: id });
-  return addedBook;
+  return await Book.findOneAndDelete({ _id: id });
 };
 
 export const BookServices = {
