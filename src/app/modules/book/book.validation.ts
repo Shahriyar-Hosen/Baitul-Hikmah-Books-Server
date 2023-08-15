@@ -2,6 +2,9 @@ import { z } from "zod";
 
 const addBookZodSchema = z.object({
   body: z.object({
+    image: z.string({
+      required_error: "Image is required",
+    }),
     title: z.string({
       required_error: "Title is required",
     }),

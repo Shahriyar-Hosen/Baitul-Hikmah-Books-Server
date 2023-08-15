@@ -5,6 +5,7 @@ const addBook = async (payload: IBook) => {
   const addedBook = await Book.create(payload);
   return addedBook;
 };
+
 const getBooks = async () => {
   const addedBook = await Book.find();
   return addedBook;
