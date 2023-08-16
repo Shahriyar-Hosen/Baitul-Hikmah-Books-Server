@@ -4,7 +4,6 @@ import config from "../../../config";
 import { catchAsync, sendResponse } from "../../../shared";
 import { AuthService } from "./auth.service";
 
-// login users
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthService.loginUser(req.body);
   const { refreshToken, ...others } = result;
@@ -31,14 +30,12 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User create successfull",
+    message: "User create successfully",
     data: result,
   });
 });
 
-// login users service
-
-export const AuthCtrl = {
+export const AuthController = {
   createUser,
   loginUser,
 };
