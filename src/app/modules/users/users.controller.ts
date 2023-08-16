@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync } from "../../../shared";
-import sendResponse from "../../../shared/sendResponse";
+import { catchAsync, sendResponse } from "../../../shared";
 import { UserService } from "./users.service";
 
 // get all users

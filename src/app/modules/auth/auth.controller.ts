@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 import config from "../../../config";
-import { catchAsync } from "../../../shared";
-import sendResponse from "../../../shared/sendResponse";
+import { catchAsync, sendResponse } from "../../../shared";
 import { AuthService } from "./auth.service";
 
 // login users

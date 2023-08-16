@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync } from "../../../shared";
-import sendResponse from "../../../shared/sendResponse";
+import { catchAsync, sendResponse } from "../../../shared";
 import { FinishedBook } from "./finishedBook.model";
 import { FinishedBookService } from "./finishedBook.service";
 

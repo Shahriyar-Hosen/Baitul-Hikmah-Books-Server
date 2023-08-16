@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync, pick } from "../../../shared";
+import { catchAsync, pick, sendResponse } from "../../../shared";
 import { ApiError } from "../../../shared/error/ApiError";
-import sendResponse from "../../../shared/sendResponse";
 import { filterableFields } from "./book.interface";
 import { BookService } from "./book.service";
 
