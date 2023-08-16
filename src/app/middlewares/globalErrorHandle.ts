@@ -1,12 +1,14 @@
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 import config from "../../config";
-import { ApiError } from "../../shared/error/ApiError";
-import handleCastError from "../../shared/error/handleCastError";
-import handleDuplicateKeyError from "../../shared/error/handleDuplicateKeyError";
-import handleValidationError from "../../shared/error/handleValidationError";
-import handleZodError from "../../shared/error/handleZodError";
 import { IGenericError } from "../../interface";
+import {
+  ApiError,
+  handleCastError,
+  handleDuplicateKeyError,
+  handleValidationError,
+  handleZodError,
+} from "../../shared/error";
 
 export const globalErrorHandle: ErrorRequestHandler = (
   error,

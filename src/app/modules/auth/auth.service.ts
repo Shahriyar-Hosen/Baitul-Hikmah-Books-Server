@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import { jwtHelpers } from "../../../helpers";
-import { ApiError } from "../../../shared/error/ApiError";
+import { ApiError } from "../../../shared/error";
 import { IUser } from "../../modules/users/users.interface";
 import { User } from "../../modules/users/users.model";
 import { IUserAuth } from "./auth.interface";

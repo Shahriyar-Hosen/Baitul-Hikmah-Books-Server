@@ -4,7 +4,9 @@ type MongooseError = {
   keyValue: Record<string, unknown>;
 };
 
-const handleDuplicateKeyError = (err: MongooseError): IGenericErrorResponse => {
+export const handleDuplicateKeyError = (
+  err: MongooseError
+): IGenericErrorResponse => {
   const errorMessage = Object.keys(err.keyValue).map(key => ({
     path: key,
     message: `Duplicate ${key} entered`,
@@ -16,5 +18,3 @@ const handleDuplicateKeyError = (err: MongooseError): IGenericErrorResponse => {
     errorMessage,
   };
 };
-
-export default handleDuplicateKeyError;

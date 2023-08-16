@@ -1,14 +1,14 @@
-import { JwtPayload } from 'jsonwebtoken';
-import { ApiError } from '../../../shared/error/ApiError';
-import { PlanToRead } from '../planToRead/planToRead.model';
-import { Wishlist } from '../wishlist/wishlist.model';
-import { IBook, IBookFilters, IReview } from './book.interface';
-import { Book } from './book.model';
+import { JwtPayload } from "jsonwebtoken";
+import { ApiError } from "../../../shared/error";
+import { PlanToRead } from "../planToRead/planToRead.model";
+import { Wishlist } from "../wishlist/wishlist.model";
+import { IBook, IBookFilters, IReview } from "./book.interface";
+import { Book } from "./book.model";
 
 const addNewBook = async (user: JwtPayload | null, payload: IBook) => {
   const result = await Book.create(payload);
   if (!result) {
-    throw new ApiError(404, 'New Book create failed');
+    throw new ApiError(404, "New Book create failed");
   }
   return result;
 };
@@ -17,14 +17,14 @@ const getAllBooks = async (filters: IBookFilters | any) => {
   const { searchTerm, ...filterData } = filters;
 
   const andConditions = [];
-  const bookFilterData = ['title', 'author', 'genre'];
+  const bookFilterData = ["title", "author", "genre"];
 
   if (searchTerm) {
     andConditions.push({
       $or: bookFilterData.map(field => ({
         [field]: {
           $regex: searchTerm,
-          $options: 'i',
+          $options: "i",
         },
       })),
     });
@@ -55,7 +55,7 @@ const getFeaturedBooks = async () => {
   const result = await Book.find({}).sort({ createdAt: -1 }).limit(10);
 
   if (!result) {
-    throw new ApiError(404, 'Book not found!');
+    throw new ApiError(404, "Book not found!");
   }
   return result;
 };
@@ -63,7 +63,7 @@ const getFeaturedBooks = async () => {
 const getSingleBook = async (id: string) => {
   const result = await Book.findById({ _id: id }).lean();
   if (!result) {
-    throw new ApiError(404, 'Book not found!');
+    throw new ApiError(404, "Book not found!");
   }
   return result;
 };
@@ -73,7 +73,7 @@ const updateBook = async (id: string, payload: IBook) => {
     new: true,
   });
   if (!result) {
-    throw new ApiError(404, 'update book not found!');
+    throw new ApiError(404, "update book not found!");
   }
   return result;
 };
@@ -83,7 +83,7 @@ const deleteBook = async (id: string) => {
   const result2 = await Wishlist.deleteOne({ bookId: id }).lean();
   const result3 = await PlanToRead.deleteOne({ bookId: id }).lean();
   if (!result) {
-    throw new ApiError(404, 'Book not delete successful!');
+    throw new ApiError(404, "Book not delete successful!");
   }
   return result;
 };
@@ -96,7 +96,7 @@ const addReview = async (id: string, payload: IReview) => {
   ).lean();
 
   if (!book) {
-    throw new ApiError(404, 'No book found');
+    throw new ApiError(404, "No book found");
   }
 
   return book;
