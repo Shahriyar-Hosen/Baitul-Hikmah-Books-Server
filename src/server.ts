@@ -1,30 +1,28 @@
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
-import config from "./config/index";
-
-let server: Server;
+import config from "./config";
 
 process.on("uncaughtException", error => {
-  console.log("uncouth Exception server error");
   console.log(error);
   process.exit(1);
 });
 
-async function main() {
+let server: Server;
+
+async function bootstrap() {
   try {
     await mongoose.connect(config.database_url as string);
-    server = app.listen(config.port, () => {
-      console.log(`server listening on port in the-bookshelf ${config.port}`);
-    });
+    console.log(`Database is Connected Successfully! ✅📦✅`);
 
-    console.log(`database connect successful in the-bookshelf ${config.port}`);
-  } catch (error) {
-    console.log("something is wrong");
+    server = app.listen(config.port, () => {
+      console.log(`Server is app listening on port ${config.port} 🫀✅🫀`);
+    });
+  } catch (err) {
+    console.log("❌❗❌❗❌ Database connection failed❗ error:- " + err);
   }
 
   process.on("unhandledRejection", error => {
-    console.log("unhandledRejection is detected, we are closing our server...");
     if (server) {
       server.close(() => {
         console.log(error);
@@ -36,15 +34,12 @@ async function main() {
   });
 }
 
-main();
+bootstrap();
 
 process.on("SIGTERM", () => {
   console.log("SIGTERM is received");
+
   if (server) {
     server.close();
   }
-});
-
-app.get("/", (req, res) => {
-  res.send({ message: "my name is mitaly" });
 });
