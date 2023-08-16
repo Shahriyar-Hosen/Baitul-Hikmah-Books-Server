@@ -1,36 +1,36 @@
-import express from 'express';
-import { AuthRoute } from '../modules/auth/auth.route';
-import { BookRoute } from '../modules/books/book.route';
-import { FinishedRoute } from '../modules/finishedBook/finishedBook.route';
-import { PlanToReadRoute } from '../modules/planToRead/planToRead.route';
-import { UserRoute } from '../modules/users/users.route';
-import { WishlistRoute } from '../modules/wishlist/wishlist.route';
+import express from "express";
+import { AuthRoute } from "../modules/auth/auth.route";
+import { BookRoute } from "../modules/books/book.route";
+import { FinishedRoute } from "../modules/finishedBook/finishedBook.route";
+import { PlanToReadRoute } from "../modules/planToRead/planToRead.route";
+import { UserRoute } from "../modules/users/users.route";
+import { WishlistRoute } from "../modules/wishlist/wishlist.route";
 
 const router = express.Router();
 
 export const moduleRoute = [
   {
-    path: '/auth',
+    path: "/auth",
     route: AuthRoute,
   },
   {
-    path: '/users',
+    path: "/users",
     route: UserRoute,
   },
   {
-    path: '/book',
+    path: "/book",
     route: BookRoute,
   },
   {
-    path: '/wishlist',
+    path: "/wishlist",
     route: WishlistRoute,
   },
   {
-    path: '/plan-to-read',
+    path: "/plan-to-read",
     route: PlanToReadRoute,
   },
   {
-    path: '/finished-book',
+    path: "/finished-book",
     route: FinishedRoute,
   },
 ];
