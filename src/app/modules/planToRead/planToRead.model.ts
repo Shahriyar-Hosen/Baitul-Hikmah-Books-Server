@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Schema } from 'mongoose';
-import { IPlanToRead } from './planToRead.interface';
+import mongoose, { Schema } from "mongoose";
+import { IPlanToRead } from "./planToRead.interface";
 
 const planToReadSchema = new Schema<IPlanToRead>(
   {
@@ -23,6 +23,6 @@ const planToReadSchema = new Schema<IPlanToRead>(
 );
 
 export const PlanToRead = mongoose.model<IPlanToRead>(
-  'PlanToRead',
+  "PlanToRead",
   planToReadSchema
 );
