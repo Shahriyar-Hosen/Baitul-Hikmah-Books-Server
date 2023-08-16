@@ -1,10 +1,10 @@
 import express from 'express';
-import { AuthRoute } from '../auth/auth.route';
-import { UserRoute } from '../users/users.route';
-import { BookRoute } from '../books/book.route';
-import { WishlistRoute } from '../wishlist/wishlist.route';
-import { PlanToReadRoute } from '../planToRead/planToRead.route';
-import { FinishedRoute } from '../finishedBook/finishedBook.route';
+import { AuthRoute } from '../modules/auth/auth.route';
+import { BookRoute } from '../modules/books/book.route';
+import { FinishedRoute } from '../modules/finishedBook/finishedBook.route';
+import { PlanToReadRoute } from '../modules/planToRead/planToRead.route';
+import { UserRoute } from '../modules/users/users.route';
+import { WishlistRoute } from '../modules/wishlist/wishlist.route';
 
 const router = express.Router();
 

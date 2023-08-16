@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { globalErrorHandle } from './app/middlewares/globalErrorHandle';
-import { routes } from './app/modules/routes';
+import { routes } from './app/routes';
 const app: Application = express();
 
 app.use(cookieParser());
