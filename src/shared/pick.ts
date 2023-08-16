@@ -1,6 +1,6 @@
-import { object } from 'zod';
+import { object } from "zod";
 
-const pick = <T extends Record<string, unknown>, K extends keyof T>(
+export const pick = <T extends Record<string, unknown>, K extends keyof T>(
   obj: T,
   keys: K[]
 ): Partial<T> => {
@@ -13,4 +13,3 @@ const pick = <T extends Record<string, unknown>, K extends keyof T>(
 
   return finalObj;
 };
-export default pick;
