@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../config';
-import { ApiError } from '../../error/ApiError';
 import { jwtHelpers } from '../../helpers/jwtHelpers';
+import { ApiError } from '../../shared/error/ApiError';
 
 const auth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -1,7 +1,7 @@
-import { ApiError } from '../../../error/ApiError';
 import { JwtPayload } from 'jsonwebtoken';
-import { PlanToRead } from './planToRead.model';
+import { ApiError } from '../../../shared/error/ApiError';
 import { IPlanToRead } from './planToRead.interface';
+import { PlanToRead } from './planToRead.model';
 
 const addPlanToRead = async (payload: IPlanToRead) => {
   const result = await PlanToRead.create(payload);

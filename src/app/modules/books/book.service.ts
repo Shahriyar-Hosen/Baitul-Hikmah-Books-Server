@@ -1,10 +1,9 @@
-import mongoose, { Schema } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
-import { Book } from './book.model';
-import { IBook, IBookFilters, IReview } from './book.interface';
-import { ApiError } from '../../../error/ApiError';
-import { Wishlist } from '../wishlist/wishlist.model';
+import { ApiError } from '../../../shared/error/ApiError';
 import { PlanToRead } from '../planToRead/planToRead.model';
+import { Wishlist } from '../wishlist/wishlist.model';
+import { IBook, IBookFilters, IReview } from './book.interface';
+import { Book } from './book.model';
 
 const addNewBook = async (user: JwtPayload | null, payload: IBook) => {
   const result = await Book.create(payload);

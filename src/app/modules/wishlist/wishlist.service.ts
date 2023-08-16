@@ -1,7 +1,7 @@
-import { ApiError } from '../../../error/ApiError';
-import { Wishlist } from './wishlist.model';
-import { IWishlist } from './wishlist.interface';
 import { JwtPayload } from 'jsonwebtoken';
+import { ApiError } from '../../../shared/error/ApiError';
+import { IWishlist } from './wishlist.interface';
+import { Wishlist } from './wishlist.model';
 
 const addBookWishlist = async (payload: IWishlist) => {
   const result = await Wishlist.create(payload);

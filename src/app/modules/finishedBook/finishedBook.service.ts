@@ -1,5 +1,5 @@
-import { ApiError } from '../../../error/ApiError';
 import { JwtPayload } from 'jsonwebtoken';
+import { ApiError } from '../../../shared/error/ApiError';
 import { IFinishedBook } from './finishedBook.interface';
 import { FinishedBook } from './finishedBook.model';
 

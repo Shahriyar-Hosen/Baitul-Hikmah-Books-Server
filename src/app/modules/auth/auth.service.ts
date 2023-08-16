@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
-import { ApiError } from '../../../error/ApiError';
+import { Secret } from 'jsonwebtoken';
+import config from '../../../config';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import { ApiError } from '../../../shared/error/ApiError';
 import { IUser } from '../../modules/users/users.interface';
 import { User } from '../../modules/users/users.model';
-import { IJWTResponse, IUserAuth } from './auth.interface';
-import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import config from '../../../config';
-import { Secret } from 'jsonwebtoken';
+import { IUserAuth } from './auth.interface';
 
 const createUser = async (payload: IUser) => {
   console.log('duplicate', payload);

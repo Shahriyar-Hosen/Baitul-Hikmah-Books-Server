@@ -1,10 +1,9 @@
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import AsyncErrorHandler from '../../../shared/AsyncErrorHandler';
 import sendResponse from '../../../shared/sendResponse';
-import { Request, Response } from 'express';
-import { WishlistService } from './wishlist.service';
 import { Wishlist } from './wishlist.model';
-import { ApiError } from '../../../error/ApiError';
+import { WishlistService } from './wishlist.service';
 
 const addBookWishlist = AsyncErrorHandler(
   async (req: Request, res: Response) => {

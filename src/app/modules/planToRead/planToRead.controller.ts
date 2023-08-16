@@ -1,8 +1,7 @@
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import AsyncErrorHandler from '../../../shared/AsyncErrorHandler';
 import sendResponse from '../../../shared/sendResponse';
-import { Request, Response } from 'express';
-import { ApiError } from '../../../error/ApiError';
 import { PlanToRead } from './planToRead.model';
 import { PlanToReadService } from './planToRead.service';
 

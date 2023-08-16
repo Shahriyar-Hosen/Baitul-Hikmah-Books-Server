@@ -1,4 +1,4 @@
-import { IGenericErrorResponse } from '../interface/common';
+import { IGenericErrorResponse } from '../../interface/common';
 
 type MongooseError = {
   keyValue: Record<string, unknown>;

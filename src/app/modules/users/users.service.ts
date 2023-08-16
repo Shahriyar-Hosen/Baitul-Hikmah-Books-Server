@@ -1,8 +1,6 @@
-import config from '../../../config';
-import { ApiError } from '../../../error/ApiError';
+import { ApiError } from '../../../shared/error/ApiError';
 import { IUser } from './users.interface';
 import { User } from './users.model';
-import bcrypt from 'bcrypt';
 
 const getAllUsers = async () => {
   const result = await User.find({});
