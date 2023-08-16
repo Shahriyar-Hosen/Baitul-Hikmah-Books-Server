@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Schema } from 'mongoose';
-import { IWishlist } from './wishlist.interface';
+import mongoose, { Schema } from "mongoose";
+import { IWishlist } from "./wishlist.interface";
 
 const WishlistSchema = new Schema<IWishlist>(
   {
@@ -22,4 +22,4 @@ const WishlistSchema = new Schema<IWishlist>(
   }
 );
 
-export const Wishlist = mongoose.model<IWishlist>('Wishlist', WishlistSchema);
+export const Wishlist = mongoose.model<IWishlist>("Wishlist", WishlistSchema);
