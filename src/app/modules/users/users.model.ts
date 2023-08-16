@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Schema } from 'mongoose';
-import config from '../../../config';
-import bcrypt from 'bcrypt';
-import { IUser, UserModel } from './users.interface';
+import bcrypt from "bcrypt";
+import mongoose, { Schema } from "mongoose";
+import config from "../../../config";
+import { IUser, UserModel } from "./users.interface";
 
 const UserSchema = new Schema<IUser, UserModel>(
   {
@@ -32,7 +32,7 @@ UserSchema.statics.isPasswordMatch = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre("save", async function (next) {
   const user = this;
   this.password = await bcrypt.hash(
     user.password,
@@ -40,4 +40,4 @@ UserSchema.pre('save', async function (next) {
   );
   next();
 });
-export const User = mongoose.model<IUser, UserModel>('User', UserSchema);
+export const User = mongoose.model<IUser, UserModel>("User", UserSchema);
