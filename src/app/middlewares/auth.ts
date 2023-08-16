@@ -18,9 +18,6 @@ const auth = () => async (req: Request, res: Response, next: NextFunction) => {
     verifiedUser = jwtHelpers.verifiedToken(token, config.jwt.secret as Secret);
 
     req.user = verifiedUser;
-    // if (userEmail !== verifiedUser.email) {
-    //   throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden User');
-    // }
 
     next();
   } catch (error) {
