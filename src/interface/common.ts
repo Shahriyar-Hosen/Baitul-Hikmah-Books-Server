@@ -1,4 +1,4 @@
-import { IGenericError } from './error';
+import { IGenericError } from "./error";
 
 export type IGenericErrorResponse = {
   statusCode: number;
