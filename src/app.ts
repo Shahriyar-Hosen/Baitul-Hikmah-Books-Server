@@ -1,9 +1,9 @@
-import express, { Application, Response, Request, NextFunction } from 'express';
-import cors from 'cors';
-import { globalErrorHandle } from './middlewares/globalErrorHandle';
-import { routes } from './app/modules/routes';
-import httpStatus from 'http-status';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
+import { globalErrorHandle } from './app/middlewares/globalErrorHandle';
+import { routes } from './app/modules/routes';
 const app: Application = express();
 
 app.use(cookieParser());

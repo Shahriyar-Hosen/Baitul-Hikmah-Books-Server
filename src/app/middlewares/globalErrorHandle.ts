@@ -1,12 +1,12 @@
 import { ErrorRequestHandler } from 'express';
-import { IGenericError } from '../interface/error';
-import config from '../config';
-import { ApiError } from '../error/ApiError';
-import handleValidationError from '../error/handleValidationError';
-import handleCastError from '../error/handleCastError';
-import handleDuplicateKeyError from '../error/handleDuplicateKeyError';
 import { ZodError } from 'zod';
-import handleZodError from '../error/handleZodError';
+import config from '../../config';
+import { ApiError } from '../../error/ApiError';
+import handleCastError from '../../error/handleCastError';
+import handleDuplicateKeyError from '../../error/handleDuplicateKeyError';
+import handleValidationError from '../../error/handleValidationError';
+import handleZodError from '../../error/handleZodError';
+import { IGenericError } from '../../interface/error';
 
 export const globalErrorHandle: ErrorRequestHandler = (
   error,
