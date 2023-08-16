@@ -8,22 +8,18 @@ import { User } from "../../modules/users/users.model";
 import { IUserAuth } from "./auth.interface";
 
 const createUser = async (payload: IUser) => {
-  console.log("duplicate", payload);
-  const user = await User.find(payload);
   const result = await User.create(payload);
 
   if (!result) {
-    throw new ApiError(404, "signup request failed!");
+    throw new ApiError(httpStatus.NOT_FOUND, "signup request failed!");
   }
   return result;
 };
 
-// login
 const loginUser = async (payload: IUserAuth) => {
   const { email: userEmail, password } = payload;
 
   const isUserExit = await User.findOne({ email: userEmail });
-  console.log("sUserExit", isUserExit, userEmail);
 
   if (!isUserExit) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found!");
@@ -43,6 +39,7 @@ const loginUser = async (payload: IUserAuth) => {
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
+
   const refreshToken = jwtHelpers.createToken(
     { id, email },
     config.jwt.refresh_secret as Secret,
