@@ -1,2 +1,2 @@
 export * from "./jwtHelpers";
-export * from "./pagination";
+export * from "./paginationHelpers";

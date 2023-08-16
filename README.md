@@ -1,7 +1,9 @@
-<h1 align="center" >Baitul Hikmah Books Server</h1>
 
-### Build a Simple Book Catalog Application using React, Redux & Typescript (Backend Category)
+## Live Link:
+https://the-bookshelf-book-catalog.netlify.app/
 
-#### Live site Link:
+## frontend github: 
+https://github.com/mitaly-dev/The-Bookshelf-Book_Catalog 
 
-#### Frontend Link: [Baitul Hikmah Books](https://github.com/Shahriyar-Hosen/Baitul-Hikmah-Books)
+## backend github: 
+https://github.com/mitaly-dev/The-Bookshelf-Book_Catalog-Backend

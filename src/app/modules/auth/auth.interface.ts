@@ -1,13 +1,9 @@
-export type ILoginUser = {
+export type IUserAuth = {
   email: string;
   password: string;
 };
 
-export type ILoginUserResponse = {
+export type IJWTResponse = {
   accessToken: string;
   refreshToken?: string;
-};
-
-export type IRefreshTokenResponse = {
-  accessToken: string;
 };

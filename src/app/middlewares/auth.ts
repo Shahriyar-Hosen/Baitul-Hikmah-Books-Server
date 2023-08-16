@@ -2,35 +2,27 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { Secret } from "jsonwebtoken";
 import config from "../../config";
-import { ApiError } from "../../errors";
-import { jwtHelpers } from "./../../helpers/jwtHelpers";
+import { jwtHelpers } from "../../helpers";
+import { ApiError } from "../../shared/error";
 
-const auth =
-  (...requiredRoles: string[]) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const token = req.headers.authorization;
+const auth = () => async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.headers.authorization;
 
-      if (!token) {
-        throw new ApiError(httpStatus.UNAUTHORIZED, " Unauthorized user");
-      }
-      let verifiedUser = null;
-
-      verifiedUser = jwtHelpers.verifyToken(
-        token,
-        config.access_secret as Secret
-      );
-
-      // req.user = verifiedUser;
-
-      // to check by role
-      if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {
-        throw new ApiError(httpStatus.FORBIDDEN, "Forbidden");
-      }
-      next();
-    } catch (error) {
-      next(error);
+    if (!token) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "You are not authorized");
     }
-  };
+
+    let verifiedUser = null;
+
+    verifiedUser = jwtHelpers.verifiedToken(token, config.jwt.secret as Secret);
+
+    req.user = verifiedUser;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default auth;
