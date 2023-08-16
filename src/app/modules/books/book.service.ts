@@ -1,7 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { JwtPayload } from "jsonwebtoken";
 import { ApiError } from "../../../shared/error";
-import { PlanToRead } from "../planToRead/planToRead.model";
-import { Wishlist } from "../wishlist/wishlist.model";
 import { IBook, IBookFilters, IReview } from "./book.interface";
 import { Book } from "./book.model";
 
@@ -10,6 +9,7 @@ const addNewBook = async (user: JwtPayload | null, payload: IBook) => {
   if (!result) {
     throw new ApiError(404, "New Book create failed");
   }
+
   return result;
 };
 
@@ -57,14 +57,17 @@ const getFeaturedBooks = async () => {
   if (!result) {
     throw new ApiError(404, "Book not found!");
   }
+
   return result;
 };
 
 const getSingleBook = async (id: string) => {
   const result = await Book.findById({ _id: id }).lean();
+
   if (!result) {
     throw new ApiError(404, "Book not found!");
   }
+
   return result;
 };
 
@@ -72,19 +75,21 @@ const updateBook = async (id: string, payload: IBook) => {
   const result = await Book.findByIdAndUpdate({ _id: id }, payload, {
     new: true,
   });
+
   if (!result) {
     throw new ApiError(404, "update book not found!");
   }
+
   return result;
 };
 
 const deleteBook = async (id: string) => {
   const result = await Book.deleteOne({ _id: id }).lean();
-  const result2 = await Wishlist.deleteOne({ bookId: id }).lean();
-  const result3 = await PlanToRead.deleteOne({ bookId: id }).lean();
+
   if (!result) {
     throw new ApiError(404, "Book not delete successful!");
   }
+
   return result;
 };
 
@@ -101,10 +106,12 @@ const addReview = async (id: string, payload: IReview) => {
 
   return book;
 };
+
 const getPublishedYears = async (genre: string) => {
   const result = await Book.find({ genre }).lean();
 
   const uniqueValues: any[] = [];
+
   result.forEach(data => {
     if (!uniqueValues.includes(data?.publicationYear)) {
       uniqueValues.push(data?.publicationYear);

@@ -24,7 +24,9 @@ const addFinishedBook = catchAsync(async (req: Request, res: Response) => {
       message: "Remove from finished book successfully",
     });
   }
+
   const result = await FinishedBookService.addFinishedBook(book);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

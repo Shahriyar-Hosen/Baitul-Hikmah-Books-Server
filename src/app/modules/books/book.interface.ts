@@ -1,4 +1,3 @@
-import { string } from 'zod';
 type Ireview = {
   user: string;
   message: string;
@@ -26,5 +25,5 @@ export type IReview = {
   review: string;
 };
 
-export const filterableFields = ['searchTerm', 'genre', 'publicationYear'];
-export const bookfilterableFields = ['searchTerm', 'title', 'author', 'genre'];
+export const filterableFields = ["searchTerm", "genre", "publicationYear"];
+export const bookfilterableFields = ["searchTerm", "title", "author", "genre"];

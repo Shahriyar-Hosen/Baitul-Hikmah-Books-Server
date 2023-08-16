@@ -85,10 +85,6 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
 const addReview = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  console.log(
-    "req.body review=============================================================================",
-    req.body
-  );
   const result = await BookService.addReview(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -111,7 +107,7 @@ const getPublishedYears = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const BookCtrl = {
+export const BookController = {
   addNewBook,
   getAllBooks,
   getSingleBook,

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Schema } from 'mongoose';
-import { IBook } from './book.interface';
-import { boolean } from 'zod';
+import mongoose, { Schema } from "mongoose";
+import { IBook } from "./book.interface";
 
 const BookSchema = new Schema<IBook>(
   {
@@ -39,4 +38,4 @@ const BookSchema = new Schema<IBook>(
   }
 );
 
-export const Book = mongoose.model<IBook>('Book', BookSchema);
+export const Book = mongoose.model<IBook>("Book", BookSchema);

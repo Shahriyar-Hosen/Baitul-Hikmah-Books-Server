@@ -5,9 +5,11 @@ import { FinishedBook } from "./finishedBook.model";
 
 const addFinishedBook = async (payload: IFinishedBook) => {
   const result = await FinishedBook.create(payload);
+
   if (!result) {
     throw new ApiError(404, "added finished book failed");
   }
+
   return result;
 };
 

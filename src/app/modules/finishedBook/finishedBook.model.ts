@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Schema } from 'mongoose';
-import { IFinishedBook } from './finishedBook.interface';
+import mongoose, { Schema } from "mongoose";
+import { IFinishedBook } from "./finishedBook.interface";
 
 const FinishedBookSchema = new Schema<IFinishedBook>(
   {
@@ -19,6 +19,6 @@ const FinishedBookSchema = new Schema<IFinishedBook>(
 );
 
 export const FinishedBook = mongoose.model<IFinishedBook>(
-  'FinishedBook',
+  "FinishedBook",
   FinishedBookSchema
 );
