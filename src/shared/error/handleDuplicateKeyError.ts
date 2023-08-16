@@ -1,4 +1,4 @@
-import { IGenericErrorResponse } from '../../interface/common';
+import { IGenericErrorResponse } from "../../interface";
 
 type MongooseError = {
   keyValue: Record<string, unknown>;
@@ -12,7 +12,7 @@ const handleDuplicateKeyError = (err: MongooseError): IGenericErrorResponse => {
 
   return {
     statusCode: 400,
-    message: 'Duplicate key error',
+    message: "Duplicate key error",
     errorMessage,
   };
 };
