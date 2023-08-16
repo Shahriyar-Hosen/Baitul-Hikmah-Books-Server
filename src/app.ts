@@ -1,38 +1,26 @@
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import express, { Application, NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
-import globalErrorHandler from "./app/middlewares/globalErrorHandler";
-import routes from "./app/routes";
+import express, { Application, Response, Request, NextFunction } from 'express';
+import cors from 'cors';
+import { globalErrorHandle } from './middlewares/globalErrorHandle';
+import { routes } from './app/modules/routes';
+import httpStatus from 'http-status';
+import cookieParser from 'cookie-parser';
 const app: Application = express();
 
-// cors use
-app.use(cors());
-
-// use cookies parser
 app.use(cookieParser());
-
-// Parsing data
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", routes);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.use(globalErrorHandler);
-
-//handle not found
+app.use('/api/v1', routes);
+app.use(globalErrorHandle);
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
-    message: "Api Not Found",
-    errorMessages: [
+    message: 'Not found',
+    errorMessage: [
       {
         path: req.originalUrl,
-        message: "API Not Found",
+        message: 'Api not found',
       },
     ],
   });

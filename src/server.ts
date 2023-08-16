@@ -1,29 +1,30 @@
-/* eslint-disable no-console */
-import { Server } from "http";
-import mongoose from "mongoose";
-import app from "./app";
-import config from "./config";
+import mongoose from 'mongoose';
+import app from './app';
+import config from './config/index';
+import { Server } from 'http';
 
-process.on("uncaughtException", error => {
+let server: Server;
+
+process.on('uncaughtException', error => {
+  console.log('uncouth Exception server error');
   console.log(error);
   process.exit(1);
 });
 
-let server: Server;
-
-async function bootstrap() {
+async function main() {
   try {
     await mongoose.connect(config.database_url as string);
-    console.log(`Database is Connected Successfully! ✅📦✅`);
-
     server = app.listen(config.port, () => {
-      console.log(`Server is app listening on port ${config.port} 🫀✅🫀`);
+      console.log(`server listening on port in the-bookshelf ${config.port}`);
     });
-  } catch (err) {
-    console.log("❌❗❌❗❌ Database connection failed❗ error:- " + err);
+
+    console.log(`database connect successful in the-bookshelf ${config.port}`);
+  } catch (error) {
+    console.log('something is wrong');
   }
 
-  process.on("unhandledRejection", error => {
+  process.on('unhandledRejection', error => {
+    console.log('unhandledRejection is detected, we are closing our server...');
     if (server) {
       server.close(() => {
         console.log(error);
@@ -35,12 +36,15 @@ async function bootstrap() {
   });
 }
 
-bootstrap();
+main();
 
-process.on("SIGTERM", () => {
-  console.log("SIGTERM is received");
-
+process.on('SIGTERM', () => {
+  console.log('SIGTERM is received');
   if (server) {
     server.close();
   }
+});
+
+app.get('/', (req, res) => {
+  res.send({ message: 'my name is mitaly' });
 });

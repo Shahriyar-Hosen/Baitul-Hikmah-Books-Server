@@ -1,71 +1,45 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import httpStatus from "http-status";
-import config from "../../../config";
-import { catchAsync, sendResponse } from "../../../utils";
-import { ILoginUserResponse, IRefreshTokenResponse } from "./auth.interface";
-import { AuthServices } from "./auth.services";
+import AsyncErrorHandler from '../../../shared/AsyncErrorHandler';
+import { AuthService } from './auth.service';
+import sendResponse from '../../../shared/sendResponse';
+import httpStatus from 'http-status';
+import { Request, Response } from 'express';
+import config from '../../../config';
 
-const userSignup: RequestHandler = async (req, res, next) => {
-  try {
-    const user = req.body;
+// login users
+const loginUser = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const result = await AuthService.loginUser(req.body);
+  const { refreshToken, ...others } = result;
 
-    const result = await AuthServices.userSignUp(user);
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "User create successfully !",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const loginUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { ...loginData } = req.body;
-    const result = await AuthServices.loginUser(loginData);
-    const { refreshToken, ...others } = result;
-
-    const cookiesOption = {
-      secure: config.env === "production" ? true : false,
-      httpOnly: true,
-    };
-
-    res.cookie("refreshToken", refreshToken, cookiesOption);
-
-    sendResponse<ILoginUserResponse>(res, {
-      statusCode: 200,
-      success: true,
-      message: "User logged in successfully !",
-      data: others,
-    });
-    next();
-  }
-);
-
-const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-
-  const result = await AuthServices.refreshToken(refreshToken);
-
-  // set refresh token into cookie
-  const cookieOptions = {
-    secure: config.env === "production",
+  const refreshToken_options = {
+    secure: config.env === 'production',
     httpOnly: true,
   };
 
-  res.cookie("refreshToken", refreshToken, cookieOptions);
+  res.cookie('refreshToken', refreshToken, refreshToken_options);
 
-  sendResponse<IRefreshTokenResponse>(res, {
-    statusCode: 200,
+  sendResponse(res, {
     success: true,
-    message: "New access token generated successfully !",
+    statusCode: httpStatus.OK,
+    message: 'User logged in successfully',
+    data: others,
+  });
+});
+
+const createUser = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AuthService.createUser(data);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User create successfull',
     data: result,
   });
 });
-export const AuthController = {
-  userSignup,
+
+// login users service
+
+export const AuthCtrl = {
+  createUser,
   loginUser,
-  refreshToken,
 };
