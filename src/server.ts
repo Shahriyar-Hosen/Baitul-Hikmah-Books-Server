@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
-import app from './app';
-import config from './config/index';
-import { Server } from 'http';
+import { Server } from "http";
+import mongoose from "mongoose";
+import app from "./app";
+import config from "./config/index";
 
 let server: Server;
 
-process.on('uncaughtException', error => {
-  console.log('uncouth Exception server error');
+process.on("uncaughtException", error => {
+  console.log("uncouth Exception server error");
   console.log(error);
   process.exit(1);
 });
@@ -20,11 +20,11 @@ async function main() {
 
     console.log(`database connect successful in the-bookshelf ${config.port}`);
   } catch (error) {
-    console.log('something is wrong');
+    console.log("something is wrong");
   }
 
-  process.on('unhandledRejection', error => {
-    console.log('unhandledRejection is detected, we are closing our server...');
+  process.on("unhandledRejection", error => {
+    console.log("unhandledRejection is detected, we are closing our server...");
     if (server) {
       server.close(() => {
         console.log(error);
@@ -38,13 +38,13 @@ async function main() {
 
 main();
 
-process.on('SIGTERM', () => {
-  console.log('SIGTERM is received');
+process.on("SIGTERM", () => {
+  console.log("SIGTERM is received");
   if (server) {
     server.close();
   }
 });
 
-app.get('/', (req, res) => {
-  res.send({ message: 'my name is mitaly' });
+app.get("/", (req, res) => {
+  res.send({ message: "my name is mitaly" });
 });
