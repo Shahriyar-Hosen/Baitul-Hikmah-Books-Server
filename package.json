@@ -1,10 +1,11 @@
 {
-  "name": "The_Bookshelf",
+  "name": "baitul-hikmah-books-server",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "yarn build && ts-node-dev --respawn --transpile-only dist/server.ts",
     "lint:check": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "link:fix": "eslint . --fix",
     "prettier:fix": "prettier --write .",
