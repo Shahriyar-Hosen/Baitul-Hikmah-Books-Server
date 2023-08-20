@@ -18,10 +18,10 @@ const client = new MongoClient(uri, {
 
 const run = async () => {
   try {
-    const db = client.db("Bookcatalog");
+    const db = client.db("Baitul-Hikmah-Books");
     const bookCollection = db.collection("books");
     const wishlistCollection = db.collection("wishlists");
-    const readlistCollection = db.collection("readlists");
+    const readlistCollection = db.collection("ReadingList");
 
     app.get("/books", async (req, res) => {
       const cursor = bookCollection.find({}).sort({ publicationDate: -1 });
