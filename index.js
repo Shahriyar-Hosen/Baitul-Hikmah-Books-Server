@@ -20,7 +20,7 @@ const run = async () => {
   try {
     const db = client.db("Baitul-Hikmah-Books");
     const bookCollection = db.collection("books");
-    const wishlistCollection = db.collection("wishlists");
+    const wishlistCollection = db.collection("Wishlists");
     const readlistCollection = db.collection("ReadingList");
 
     app.get("/books", async (req, res) => {
