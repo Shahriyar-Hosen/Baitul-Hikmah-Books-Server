@@ -3,10 +3,9 @@ const book = {
   author: "string",
   genre: "string",
   publicationDate: "string",
-  publicationYear: "string",
   reviews: "review[]",
   imageUrl: "string",
-  userEmail: "string",
+  userEmail: "salman@gmail.com",
 };
 
 const review = {
