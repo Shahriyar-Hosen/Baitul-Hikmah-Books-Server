@@ -5,9 +5,22 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 const cors = require("cors");
+const { object } = require("zod");
 
 app.use(cors());
 app.use(express.json());
+
+const pick = (obj, keys) => {
+  const finalObj = {};
+
+  for (const key of keys) {
+    if (obj && object.hasOwnProperty.call(obj, key)) {
+      finalObj[key] = obj[key];
+    }
+  }
+
+  return finalObj;
+};
 
 const uri = process.env.DATABASE_URL;
 const client = new MongoClient(uri, {
@@ -24,14 +37,51 @@ const run = async () => {
     const readlistCollection = db.collection("ReadingList");
 
     app.get("/books", async (req, res) => {
-      const cursor = bookCollection.find({}).sort({ publicationDate: -1 });
-      const book = await cursor.toArray();
+      const filterableFields = ["searchTerm", "genre", "publicationYear"];
+      const bookFilterData = ["title", "author", "genre"];
+
+      const filters = pick(req.query, filterableFields);
+
+      const { searchTerm, ...filterData } = filters;
+
+      const andConditions = [];
+
+      if (searchTerm) {
+        andConditions.push({
+          $or: bookFilterData.map((field) => ({
+            [field]: {
+              $regex: searchTerm,
+              $options: "i",
+            },
+          })),
+        });
+      }
+
+      if (Object.keys(filterData).length) {
+        andConditions.push({
+          $and: Object.entries(filterData).map(([field, value]) => ({
+            [field]: value,
+          })),
+        });
+      }
+
+      const whereConditions =
+        andConditions.length > 0 ? { $and: andConditions } : {};
+
+      const result = bookCollection
+        .find(whereConditions)
+        .sort({ createdAt: -1 });
+
+      const cursor = bookCollection.find({}).sort({ createdAt: -1 });
+      const book = await result.toArray();
 
       res.send({ status: true, data: book });
     });
 
     app.post("/book", async (req, res) => {
       const book = req.body;
+      book.createdAt = new Date();
+      book.updatedAt = new Date();
 
       const result = await bookCollection.insertOne(book);
       res.send(result);
@@ -46,9 +96,10 @@ const run = async () => {
     app.patch("/book/:id", async (req, res) => {
       const id = req.params.id;
       const updatedData = req.body;
+
       const result = await bookCollection.findOneAndUpdate(
         { _id: ObjectId(id) },
-        { $set: updatedData }
+        { $set: { updatedAt: new Date() } }
       );
       res.send(result);
     });
@@ -66,7 +117,14 @@ const run = async () => {
 
       const result = await bookCollection.updateOne(
         { _id: ObjectId(bookId) },
-        { $push: { reviews: review } }
+        {
+          $push: {
+            reviews: review,
+          },
+          $set: {
+            updatedAt: new Date(),
+          },
+        }
       );
 
       if (result.modifiedCount !== 1) {
@@ -99,7 +157,14 @@ const run = async () => {
 
       const result = await bookCollection.findOneAndUpdate(
         { _id: ObjectId(bookId), "reviews.userEmail": userEmail },
-        { $set: { "reviews.$.review": updatedReview } }
+        {
+          $set: {
+            "reviews.$.review": updatedReview,
+          },
+          $set: {
+            updatedAt: new Date(),
+          },
+        }
       );
 
       if (result) {
@@ -134,7 +199,14 @@ const run = async () => {
       if (exist)
         result = await wishlistCollection.findOneAndUpdate(
           { userEmail },
-          { $push: { books: book } }
+          {
+            $push: { books: book },
+
+            $set: {
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          }
         );
       else result = await wishlistCollection.insertOne(payload);
 
@@ -159,7 +231,7 @@ const run = async () => {
     app.delete("/wishlist/:email/book/:bookId", async (req, res) => {
       const userEmail = req.params.email;
       const bookId = req.params.bookId;
-      console.log(bookId);
+
       const result = await wishlistCollection.findOneAndUpdate(
         { userEmail },
         { $pull: { books: { _id: ObjectId(bookId) } } }
@@ -182,7 +254,13 @@ const run = async () => {
       if (exist)
         result = await readlistCollection.findOneAndUpdate(
           { userEmail },
-          { $push: { readingPlan: bookData } }
+          {
+            $push: { readingPlan: bookData },
+            $set: {
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          }
         );
       else result = await readlistCollection.insertOne(payload);
 
@@ -209,7 +287,12 @@ const run = async () => {
 
       const result = await readlistCollection.findOneAndUpdate(
         { userEmail, "readingPlan._id": bookId },
-        { $set: { "readingPlan.$.completedReading": true } }
+        {
+          $set: { "readingPlan.$.completedReading": true },
+          $set: {
+            updatedAt: new Date(),
+          },
+        }
       );
 
       if (result) {
@@ -221,6 +304,8 @@ const run = async () => {
 
     app.post("/user", async (req, res) => {
       const user = req.body;
+      user.createdAt = new Date();
+      user.updatedAt = new Date();
 
       const result = await userCollection.insertOne(user);
 
