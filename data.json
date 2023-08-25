@@ -1,0 +1,132 @@
+[
+  {
+    "title": "The Odyssey",
+    "author": "Homer",
+    "genre": "Epic",
+    "publicationDate": "8th century BC",
+    "reviews": [
+      {
+        "userEmail": "a@gmail.com",
+        "review": "this book is very nice\n"
+      }
+    ]
+  },
+  {
+    "title": "someone like you🥲",
+    "author": "Amit sharma 📚",
+    "genre": "Self-Help",
+    "publicationDate": "2023-07-17",
+    "addedBy": "amit@gmail.com",
+    "reviews": [
+      {
+        "userEmail": "amit@gmail.com",
+        "review": "yes bro yes. but where is toast.\nNow, the toast will work. I told you man"
+      },
+      {
+        "userEmail": "a@gmail.com",
+        "review": "wawo this is very nice\n"
+      },
+      {
+        "userEmail": "fokruljohnny@gmail.com",
+        "review": "vhgjh\n"
+      }
+    ]
+  },
+  {
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "Fiction",
+    "publicationDate": "1988-01-01",
+    "reviews": []
+  },
+  {
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "genre": "Magical Realism",
+    "publicationDate": "1967-05-30"
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "publicationDate": "1960-07-11"
+  },
+  {
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publicationDate": "1954-07-29"
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "author": "shill paul",
+    "genre": "Coming of Age",
+    "publicationDate": "1951-07-16"
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian",
+    "publicationDate": "1949-06-08"
+  },
+  {
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publicationDate": "1937-09-21",
+    "reviews": [
+      {
+        "userEmail": "kamrulhasandhaka704@gmail.com",
+        "review": "ami boi porbo"
+      }
+    ]
+  },
+  {
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "genre": "Science Fiction",
+    "publicationDate": "1932-01-01"
+  },
+  {
+    "title": "To the Lighthouse",
+    "author": "Alamin hossain",
+    "genre": "Modernist",
+    "publicationDate": "1927-05-05"
+  },
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "publicationDate": "1925-04-10"
+  },
+  {
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "genre": "Gothic",
+    "publicationDate": "1890-07-01"
+  },
+  {
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "genre": "Adventure",
+    "publicationDate": "1851-10-18"
+  },
+  {
+    "title": "Jane Eyre",
+    "author": "chondrika ",
+    "genre": "Gothic",
+    "publicationDate": "1847-10-16"
+  },
+  {
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "genre": "Gothic",
+    "publicationDate": "1818-01-01"
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Romance",
+    "publicationDate": "1813-01-28"
+  }
+]
