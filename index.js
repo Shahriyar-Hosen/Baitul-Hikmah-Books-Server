@@ -10,6 +10,10 @@ const { object } = require("zod");
 app.use(cors());
 app.use(express.json());
 
+const filterableFields = ["searchTerm", "genre", "publicationYear"];
+const bookFilterData = ["title", "author", "genre"];
+const paginationFields = ["page", "limit", "sortBy", "sortOrder"];
+
 const pick = (obj, keys) => {
   const finalObj = {};
 
@@ -22,6 +26,23 @@ const pick = (obj, keys) => {
   return finalObj;
 };
 
+const paginationHelpers = (options) => {
+  const page = Number(options.page || 1);
+  const limit = Number(options.limit || 10);
+  const skip = (page - 1) * limit;
+
+  const sortBy = options.sortBy || "createdAt";
+  const sortOrder = options.sortOrder || "desc";
+
+  return {
+    page,
+    limit,
+    skip,
+    sortBy,
+    sortOrder,
+  };
+};
+
 const uri = process.env.DATABASE_URL;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -32,17 +53,18 @@ const client = new MongoClient(uri, {
 const run = async () => {
   try {
     const db = client.db("Baitul-Hikmah-Books");
-    const bookCollection = db.collection("books");
-    const wishlistCollection = db.collection("Wishlists");
-    const readlistCollection = db.collection("ReadingList");
+    const Book = db.collection("books");
+    const Wishlist = db.collection("Wishlists");
+    const ReadingList = db.collection("ReadingList");
 
     app.get("/books", async (req, res) => {
-      const filterableFields = ["searchTerm", "genre", "publicationYear"];
-      const bookFilterData = ["title", "author", "genre"];
-
       const filters = pick(req.query, filterableFields);
+      const paginationOptions = pick(req.query, paginationFields);
 
-      const { searchTerm, ...filterData } = filters;
+      const { limit, page, skip, sortBy, sortOrder } =
+        paginationHelpers(paginationOptions);
+
+      const { searchTerm, ...filtersData } = filters;
 
       const andConditions = [];
 
@@ -57,25 +79,40 @@ const run = async () => {
         });
       }
 
-      if (Object.keys(filterData).length) {
+      if (Object.keys(filtersData).length) {
         andConditions.push({
-          $and: Object.entries(filterData).map(([field, value]) => ({
+          $and: Object.entries(filtersData).map(([field, value]) => ({
             [field]: value,
           })),
         });
       }
 
+      const sortConditions = {};
+
+      if (sortBy && sortOrder) {
+        sortConditions[sortBy] = sortOrder;
+      }
       const whereConditions =
         andConditions.length > 0 ? { $and: andConditions } : {};
 
-      const result = bookCollection
-        .find(whereConditions)
-        .sort({ createdAt: -1 });
+      const total = await Book.countDocuments();
 
-      const cursor = bookCollection.find({}).sort({ createdAt: -1 });
-      const book = await result.toArray();
+      const result = Book.find(whereConditions)
+        .sort(sortConditions)
+        .skip(skip)
+        .limit(limit);
 
-      res.send({ status: true, data: book });
+      const books = await result.toArray();
+
+      res.send({
+        status: true,
+        meta: {
+          page,
+          limit,
+          total,
+        },
+        data: books,
+      });
     });
 
     app.post("/book", async (req, res) => {
@@ -83,23 +120,24 @@ const run = async () => {
       book.createdAt = new Date();
       book.updatedAt = new Date();
 
-      const result = await bookCollection.insertOne(book);
+      const result = await Book.insertOne(book);
       res.send(result);
     });
 
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
-      const result = await bookCollection.findOne({ _id: ObjectId(id) });
+      const result = await Book.findOne({ _id: ObjectId(id) });
       res.send(result);
     });
 
     app.patch("/book/:id", async (req, res) => {
       const id = req.params.id;
       const updatedData = req.body;
+      updatedData.updatedAt = new Date();
 
-      const result = await bookCollection.findOneAndUpdate(
+      const result = await Book.findOneAndUpdate(
         { _id: ObjectId(id) },
-        { $set: { updatedAt: new Date() } }
+        { $set: updatedData }
       );
       res.send(result);
     });
@@ -107,7 +145,7 @@ const run = async () => {
     app.delete("/book/:id", async (req, res) => {
       const id = req.params.id;
 
-      const result = await bookCollection.deleteOne({ _id: ObjectId(id) });
+      const result = await Book.deleteOne({ _id: ObjectId(id) });
       res.send(result);
     });
 
@@ -115,7 +153,7 @@ const run = async () => {
       const bookId = req.params.id;
       const review = req.body;
 
-      const result = await bookCollection.updateOne(
+      const result = await Book.updateOne(
         { _id: ObjectId(bookId) },
         {
           $push: {
@@ -138,7 +176,7 @@ const run = async () => {
     app.get("/review/:id", async (req, res) => {
       const bookId = req.params.id;
 
-      const result = await bookCollection.findOne(
+      const result = await Book.findOne(
         { _id: ObjectId(bookId) },
         { projection: { _id: 0, reviews: 1 } }
       );
@@ -155,7 +193,7 @@ const run = async () => {
       const userEmail = req.params.email;
       const updatedReview = req.body.review;
 
-      const result = await bookCollection.findOneAndUpdate(
+      const result = await Book.findOneAndUpdate(
         { _id: ObjectId(bookId), "reviews.userEmail": userEmail },
         {
           $set: {
@@ -178,7 +216,7 @@ const run = async () => {
       const bookId = req.params.id;
       const userEmail = req.params.email;
 
-      const result = await bookCollection.findOneAndUpdate(
+      const result = await Book.findOneAndUpdate(
         { _id: ObjectId(bookId) },
         { $pull: { reviews: { userEmail } } }
       );
@@ -195,20 +233,13 @@ const run = async () => {
       const payload = { userEmail, books: [book] };
 
       let result;
-      const exist = await wishlistCollection.findOne({ userEmail });
+      const exist = await Wishlist.findOne({ userEmail });
       if (exist)
-        result = await wishlistCollection.findOneAndUpdate(
+        result = await Wishlist.findOneAndUpdate(
           { userEmail },
-          {
-            $push: { books: book },
-
-            $set: {
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            },
-          }
+          { $push: { books: book } }
         );
-      else result = await wishlistCollection.insertOne(payload);
+      else result = await Wishlist.insertOne(payload);
 
       res.json({
         message: "Wishlist added successfully",
@@ -218,7 +249,7 @@ const run = async () => {
 
     app.get("/wishlist/:email", async (req, res) => {
       const userEmail = req.params.email;
-      const result = await wishlistCollection.findOne({ userEmail });
+      const result = await Wishlist.findOne({ userEmail });
 
       if (result) {
         return res.json(result);
@@ -232,7 +263,7 @@ const run = async () => {
       const userEmail = req.params.email;
       const bookId = req.params.bookId;
 
-      const result = await wishlistCollection.findOneAndUpdate(
+      const result = await Wishlist.findOneAndUpdate(
         { userEmail },
         { $pull: { books: { _id: ObjectId(bookId) } } }
       );
@@ -250,9 +281,9 @@ const run = async () => {
       const payload = { userEmail, readingPlan: [bookData] };
 
       let result;
-      const exist = await readlistCollection.findOne({ userEmail });
+      const exist = await ReadingList.findOne({ userEmail });
       if (exist)
-        result = await readlistCollection.findOneAndUpdate(
+        result = await ReadingList.findOneAndUpdate(
           { userEmail },
           {
             $push: { readingPlan: bookData },
@@ -262,7 +293,7 @@ const run = async () => {
             },
           }
         );
-      else result = await readlistCollection.insertOne(payload);
+      else result = await ReadingList.insertOne(payload);
 
       res.json({
         message: "Book added to Reading List successfully",
@@ -272,7 +303,7 @@ const run = async () => {
 
     app.get("/readinglist/:email", async (req, res) => {
       const userEmail = req.params.email;
-      const result = await readlistCollection.findOne({ userEmail });
+      const result = await ReadingList.findOne({ userEmail });
 
       if (result) {
         return res.json(result);
@@ -285,7 +316,7 @@ const run = async () => {
       const userEmail = req.params.email;
       const bookId = req.params.bookId;
 
-      const result = await readlistCollection.findOneAndUpdate(
+      const result = await ReadingList.findOneAndUpdate(
         { userEmail, "readingPlan._id": bookId },
         {
           $set: { "readingPlan.$.completedReading": true },
