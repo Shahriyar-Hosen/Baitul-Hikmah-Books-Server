@@ -95,14 +95,13 @@ const run = async () => {
       const whereConditions =
         andConditions.length > 0 ? { $and: andConditions } : {};
 
-      const total = await Book.countDocuments();
-
       const result = Book.find(whereConditions)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
 
       const books = await result.toArray();
+      const total = await Book.countDocuments();
 
       res.send({
         status: true,
