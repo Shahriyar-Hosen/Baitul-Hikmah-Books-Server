@@ -10,8 +10,8 @@ const { object } = require("zod");
 app.use(cors());
 app.use(express.json());
 
-const filterableFields = ["searchTerm", "genre", "publicationYear"];
-const bookFilterData = ["title", "author", "genre"];
+const filterableFields = ["searchTerm", "genre", "publicationDate"];
+const searchableFields = ["title", "author", "genre"];
 const paginationFields = ["page", "limit", "sortBy", "sortOrder"];
 
 const pick = (obj, keys) => {
@@ -70,7 +70,7 @@ const run = async () => {
 
       if (searchTerm) {
         andConditions.push({
-          $or: bookFilterData.map((field) => ({
+          $or: searchableFields.map((field) => ({
             [field]: {
               $regex: searchTerm,
               $options: "i",
