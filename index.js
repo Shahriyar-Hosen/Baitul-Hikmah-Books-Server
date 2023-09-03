@@ -257,8 +257,25 @@ const run = async () => {
       res.status(404).json({ error: "Book not found" });
     });
 
+    app.patch("/wishlist/:email", async (req, res) => {
+      const { bookId, books } = req.body;
+      const userEmail = req.params.email;
+      // const bookId = req.params.bookId;
+
+      const result = await Wishlist.findOneAndUpdate(
+        { userEmail },
+        { $pull: { books: { _id: ObjectId(bookId) } } }
+      );
+
+      if (result) {
+        return res.json(result);
+      }
+
+      res.status(404).json({ error: "Book not found" });
+    });
+
     // ToDo: Fix This!
-    app.delete("/wishlist/:email/book/:bookId", async (req, res) => {
+    app.patch("/wishlist/:email/book/:bookId", async (req, res) => {
       const userEmail = req.params.email;
       const bookId = req.params.bookId;
 
